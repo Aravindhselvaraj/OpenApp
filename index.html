@@ -6,9 +6,9 @@
     <div>Loading...</div>
     <script>
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-//         const locationPath = window.location.hash;
-//         console.log('location replace', locationPath.slice(locationPath.indexOf('/explore')));
-        const scheme = 'com.gofrugal.learningmanager';
+        const locationPath = window.location.hash;
+        const listOfPathValue = locationPath.split("/");
+        const scheme = 'com.gofrugal.'+listOfPathValue[4];
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
                 window.location.replace('market://details?id='+scheme);
@@ -20,8 +20,7 @@
             }
             window.close();
         }, 1000);
-        window.location.replace("gofrugal://com.gofrugal.learningmanager/explore/")
-        console.log('location replace');
+        window.location.replace("gofrugal://"+scheme+locationPath.slice(locationPath.indexOf('/explore')));
     </script>
   </body>
 </html>
