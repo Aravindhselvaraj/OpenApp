@@ -6,8 +6,9 @@
     <div>Loading...</div>
     <script>
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        console.log('location replace', window.location);
-        const scheme = 'com.gofrugal.'+ window.router.getRoute()[window.router.getRoute().length - 1];
+//         const locationPath = window.location.hash;
+//         console.log('location replace', locationPath.slice(locationPath.indexOf('/explore')));
+        const scheme = 'com.gofrugal.learningmanager';
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
                 window.location.replace('market://details?id='+scheme);
