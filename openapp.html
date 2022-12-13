@@ -1,7 +1,9 @@
 <html>
   <body>
+    <div>Loading...</div>
     <script>
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        console.log('location replace', window.router.getRoute());
         const scheme = 'com.gofrugal.'+ window.router.getRoute()[window.router.getRoute().length - 1];
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
@@ -15,7 +17,7 @@
             window.close();
         }, 1000);
         window.location.replace("gofrugal://learningmanager/explore/")
-        console.log(window.location.href);
+        console.log('location replace');
     </script>
   </body>
 </html>
