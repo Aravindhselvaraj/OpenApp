@@ -8,7 +8,7 @@
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
         const locationPath = window.location.hash;
         const listOfPathValue = locationPath.split("/");
-        const scheme = 'com.gofrugal.'+listOfPathValue[listOfPathValue - 1];
+        const scheme = 'com.gofrugal.'+listOfPathValue[listOfPathValue.length - 1];
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
                 window.location.replace('market://details?id='+scheme);
