@@ -6,7 +6,7 @@
     <div>Loading...</div>
     <script>
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        console.log('location replace', window.router.getRoute());
+        console.log('location replace', window.location);
         const scheme = 'com.gofrugal.'+ window.router.getRoute()[window.router.getRoute().length - 1];
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
