@@ -1,17 +1,23 @@
 <html>
-  <header>
-    <title>OPEN APP</title>
-  </header>
-  <body>
-    <div>Loading...</div>
+
+<head>
+    <title>Open App 👉</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+</head>
+
+<body>
     <script>
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
         const locationPath = window.location.hash;
-        const listOfPathValue = locationPath.split("/");
-        const scheme = 'com.gofrugal.'+listOfPathValue[listOfPathValue.length - 1];
+        const encodedChiperTextParam = new URLSearchParams(locationPath.slice(locationPath.indexOf("?")));
+        const decodeURIParam = decodeURIComponent(encodedChiperTextParam.get('param'));
+        const plainTextParam = CryptoJS.AES.decrypt(decodeURIParam, "aravindh").toString(CryptoJS.enc.Utf8);
+        const pramList = plainTextParam.split("/");
+        const scheme = 'com.gofrugal.' + pramList[pramList.length - 1];
+        console.log("gofrugal://" + scheme + plainTextParam);
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
-                window.location.replace('market://details?id='+scheme);
+                window.location.replace('market://details?id=' + scheme);
                 console.log('Android');
             }
             if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
@@ -20,7 +26,8 @@
             }
             window.close();
         }, 1000);
-        window.location.replace("gofrugal://"+scheme+locationPath.slice(locationPath.indexOf('/explore')));
+        window.location.replace("gofrugal://" + scheme + plainTextParam);
     </script>
-  </body>
+</body>
+
 </html>
