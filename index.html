@@ -17,15 +17,16 @@
         console.log("gofrugal://" + scheme + plainTextParam);
         setTimeout(function () {
             if (/android/i.test(userAgent)) {
+                alert('Android '+scheme);
                 window.location.replace('market://details?id=' + scheme);
-                console.log('Android');
             }
             if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                console.log('IOS')
+                alert('Android '+scheme);
                 window.location.replace(`itms-apps://itunes.apple.com/app/${scheme}`)
             }
             window.close();
         }, 1000);
+        alert("gofrugal://" + scheme);
         window.location.replace("gofrugal://" + scheme + "/" + plainTextParam);
     </script>
 </body>
