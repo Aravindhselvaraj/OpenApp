@@ -21,7 +21,7 @@
                 window.location.replace('market://details?id=' + scheme);
             }
             if (/(ipad|iphone|ipod)/.test(navigator.userAgent.toLowerCase())) {
-                alert('Android '+scheme);
+                alert('ios '+scheme);
                 window.location.replace(`itms-apps://itunes.apple.com/app/${scheme}`)
             }
             window.close();
