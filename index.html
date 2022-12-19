@@ -20,7 +20,7 @@
                 alert('Android '+scheme);
                 window.location.replace('market://details?id=' + scheme);
             }
-            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            if (/(ipad|iphone|ipod)/.test(navigator.userAgent.toLowerCase())) {
                 alert('Android '+scheme);
                 window.location.replace(`itms-apps://itunes.apple.com/app/${scheme}`)
             }
