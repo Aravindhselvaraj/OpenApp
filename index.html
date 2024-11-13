@@ -1,34 +1,75 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Open App 👉</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to CSV Converter</title>
 </head>
-
 <body>
+    <h2>JSON to CSV Converter</h2>
+    <input type="file" id="jsonFile" accept=".json" />
+    <button onclick="convertToCSV()">Convert to CSV</button>
+    <br><br>
+    <a id="downloadLink" style="display: none;">Download CSV</a>
+
     <script>
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        const locationPath = window.location.hash;
-        const encodedChiperTextParam = new URLSearchParams(locationPath.slice(locationPath.indexOf("?")));
-        const decodeURIParam = decodeURIComponent(encodedChiperTextParam.get('param'));
-        const plainTextParam = CryptoJS.AES.decrypt(decodeURIParam, "aravindh").toString(CryptoJS.enc.Utf8);
-        const pramList = plainTextParam.split("/");
-        const scheme = 'com.gofrugal.' + pramList[pramList.length - 2];
-        const appleId = pramList[pramList.length - 1];
-        console.log("gofrugal://" + scheme + plainTextParam);
-        setTimeout(function () {
-            if (/android/i.test(userAgent)) {
-                alert('Android '+scheme);
-                window.location.replace('market://details?id=' + scheme);
+        function convertToCSV() {
+            const fileInput = document.getElementById('jsonFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a JSON file first.');
+                return;
             }
-            if (/(ipad|iphone|ipod)/.test(navigator.userAgent.toLowerCase())) {
-                alert('ios '+appleId);
-                window.location.replace(`itms-apps://itunes.apple.com/app/id${appleId}`)
-            }
-            window.close();
-        }, 1000);
-        window.location.replace("gofrugal://" + scheme + "/" + plainTextParam);
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const jsonContent = JSON.parse(event.target.result);
+                const csvContent = jsonToCsv(jsonContent.data);
+                downloadCSV(csvContent, 'converted.csv');
+            };
+            reader.readAsText(file);
+        }
+
+        function jsonToCsv(data) {
+            const headers = new Set();
+            const rows = [];
+
+            data.forEach(item => {
+                for (let key in item) {
+                    headers.add(key);
+                }
+            });
+
+            const headerArray = Array.from(headers);
+            rows.push(headerArray.join(','));
+
+            data.forEach(item => {
+                const row = headerArray.map(header => {
+                    let value = item[header];
+                    if (Array.isArray(value)) {
+                        return `"${value.join(', ')}"`; // Convert arrays to comma-separated strings
+                    } else if (value === null || value === undefined) {
+                        return '';
+                    } else {
+                        return `"${value}"`;
+                    }
+                });
+                rows.push(row.join(','));
+            });
+
+            return rows.join('\n');
+        }
+
+        function downloadCSV(csvContent, fileName) {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.getElementById('downloadLink');
+            link.href = URL.createObjectURL(blob);
+            link.style.display = 'block';
+            link.download = fileName;
+            link.textContent = 'Download CSV';
+        }
     </script>
 </body>
-
 </html>
